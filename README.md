@@ -154,10 +154,10 @@ line break.
 
 ```js
 // super_simple_sample_schema.js
-// you can find a more complex example with all the tested bells and whistles
+// you can find a more complex example template
+// with all the tested bells and whistles
 // in: test/resources/sample_schema.js
 import { z } from "zod";
-import { generateStringCombinations } from "../../src/helpers/string-combinations.ts";
 
 const schema = z.object({
   "Levels": z.number(),
@@ -226,3 +226,32 @@ Header order/content mismatches detected:
 
 - Check the `CHANGELOG.md` file in the repository. It documents all notable
   changes, new features, bug fixes, and improvements made in each version.
+
+4\. My validation schema is not working as expected. The import of code fails.
+
+- If you generateStringCombinations in your schema, make sure to copy the
+  `string-combinations.js` file from the `static/` folder to your local project
+  and adjust the import path accordingly (relative to where you run the
+  `simple-xls-toolbox` binary).
+- OR: write the JavaScript (not TypeScript) code directly in your schema file to
+  avoid import issues.
+
+Example how to import the helper correctly:
+
+Download the executable binary for your OS from the releases page or build it:
+
+`path/to/simple-xls-toolbox` and put your schema file in the same folder or
+adjust the import path accordingly.
+
+Put the helper function(s) next to your schema file or adjust the import path
+accordingly.
+
+```js
+// in your_schema.js
+// if you need generateStringCombinations functionality
+// `cp static/string-combinations.js ./` or adjust the import path accordingly
+//
+// ...
+import { generateStringCombinations } from "./string-combinations.js";
+// ...
+```
