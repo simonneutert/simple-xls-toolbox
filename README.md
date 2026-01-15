@@ -229,29 +229,9 @@ Header order/content mismatches detected:
 
 4\. My validation schema is not working as expected. The import of code fails.
 
-- If you generateStringCombinations in your schema, make sure to copy the
-  `string-combinations.js` file from the `static/` folder to your local project
-  and adjust the import path accordingly (relative to where you run the
-  `simple-xls-toolbox` binary).
-- OR: write the JavaScript (not TypeScript) code directly in your schema file to
-  avoid import issues.
+- You must export your functions properly, in order to import them.
+- You must use JavaScript (not TypeScript!)
+- Write the needed logic directly in your schema file to avoid import issues.
 
-Example how to import the helper correctly:
-
-Download the executable binary for your OS from the releases page or build it:
-
-`path/to/simple-xls-toolbox` and put your schema file in the same folder or
-adjust the import path accordingly.
-
-Put the helper function(s) next to your schema file or adjust the import path
-accordingly.
-
-```js
-// in your_schema.js
-// if you need generateStringCombinations functionality
-// `cp static/string-combinations.js ./` or adjust the import path accordingly
-//
-// ...
-import { generateStringCombinations } from "./string-combinations.js";
-// ...
-```
+Read the comments in [sample_schema.js](test/resources/sample_schema.js) for
+more details.
