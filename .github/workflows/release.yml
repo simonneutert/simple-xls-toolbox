@@ -1,0 +1,62 @@
+name: Release Build
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    name: Build and Upload Artifacts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            suffix: x86_64-unknown-linux-gnu
+          # - os: ubuntu-24.04-arm
+          #   target: aarch64-unknown-linux-gnu
+          #   suffix: aarch64-unknown-linux-gnu
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            suffix: aarch64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            suffix: x86_64-pc-windows-msvc.exe
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.6
+      - name: Build binary
+        run: |
+          mkdir -p dist
+          deno compile --allow-all --exclude ai_logo.jpg --exclude test --exclude .github --exclude .git --exclude .vscode --target ${{ matrix.target }} --output dist/simple-xls-toolbox_${{ matrix.suffix }} main.ts
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: simple-xls-toolbox_${{ matrix.suffix }}
+          path: dist/simple-xls-toolbox_${{ matrix.suffix }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download all artifacts
+        uses: actions/download-artifact@v6
+        with:
+          path: ./artifacts
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ./artifacts/**/simple-xls-toolbox_*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

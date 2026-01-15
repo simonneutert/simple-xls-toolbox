@@ -1,0 +1,30 @@
+name: Deno CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Deno Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          # - ubuntu-24.04-arm
+          - macos-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.6.x
+      - name: Deno check and fmt
+        if: runner.os != 'Windows'
+        run: deno check --allow-import && deno fmt --check
+      - name: Run tests
+        run: deno test --allow-import --allow-read
