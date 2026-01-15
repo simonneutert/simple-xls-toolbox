@@ -3,6 +3,12 @@ import * as XLSX from "xlsx";
 import { createValidator } from "zod-xlsx";
 import { z } from "zod";
 
+// deno-lint-ignore no-unused-vars
+import { generateStringCombinations } from "@simonneutert/string-combinations-generator";
+// 👆️ // Keep this import so that `generateStringCombinations` is bundled when
+// `deno compile` is used. This ensures the function is available to schema
+// files that reference it, such as `sample_schema.js`.
+
 async function loadSchema(sheetPath: string): Promise<z.ZodTypeAny> {
   const imported = await import(
     new URL(sheetPath, `file://${Deno.cwd()}/`).href

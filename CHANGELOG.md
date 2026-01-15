@@ -19,10 +19,17 @@ Use this as a placeholder for upcoming changes. 👇️
 
 ## [Unreleased]
 
+## [v0.0.2] - 2026-01-15
+
+- Fixed: [#2](https://github.com/simonneutert/simple-xls-toolbox/pull/2):
+  Refactor schema validation and remove string-combinations helper. Simplifies
+  usage of an elementary function in schema files.
+  [@simonneutert](https://github.com/simonneutert)
+
 - Added:
-  [<PR-Number>](https://github.com/simonneutert/simple-xls-toolbox/pulls/<PR-Number>):
-  Short description of the change.
-  [@github-username](https://github.com/<github-username>)
+  [#1](https://github.com/simonneutert/simple-xls-toolbox/pull/1/changes):
+  Provide a fix to use imports in schema files when compiled with
+  `deno compile`. [@simonneutert](https://github.com/simonneutert)
 
 ## [v0.0.1] - 2026-01-15
 
