@@ -5,13 +5,21 @@ import * as cptable from "cpexcel";
 import { parseArgs } from "@std/cli";
 import { excelColNumberToName } from "./helpers/excel-col-number-to-name.ts";
 
-function parseWorksheet(file: string, sheet: string) {
+export type CollectionSwap = {
+  header: string;
+  from: number;
+  to: number;
+  fromCol: string;
+  toCol: string;
+};
+
+export function parseWorksheet(file: string, sheet: string) {
   const filePath = `${Deno.cwd()}/${file}`;
   const workbook = XLSX.readFile(filePath);
   return workbook.Sheets[sheet];
 }
 
-function parseHeaders(worksheet: XLSX.WorkSheet): string[] {
+export function parseHeaders(worksheet: XLSX.WorkSheet): string[] {
   const rows = XLSX.utils.sheet_to_json(worksheet, {
     header: 1,
   });
@@ -63,7 +71,10 @@ function findMismatches(headers1: string[], headers2: string[]) {
   return mismatches;
 }
 
-function compareHeaders(headers1: string[], headers2: string[]) {
+export function compareHeaders(
+  headers1: string[],
+  headers2: string[],
+): CollectionSwap[] {
   const onlyInFile1 = headers1.filter((h) => !headers2.includes(h));
   const onlyInFile2 = headers2.filter((h) => !headers1.includes(h));
   const mismatches = findMismatches(headers1, headers2);
@@ -71,31 +82,57 @@ function compareHeaders(headers1: string[], headers2: string[]) {
   console.log("Headers only in file 1:", onlyInFile1);
   console.log("Headers only in file 2:", onlyInFile2);
 
+  const collectionSwaps: CollectionSwap[] = [];
   if (
     onlyInFile1.length === 0 && onlyInFile2.length === 0 &&
     mismatches.length === 0
   ) {
     console.log("Headers match perfectly.");
-    return;
+    return [];
   } else if (mismatches.length > 0) {
     console.log("Header order/content mismatches detected:");
-
+    // deno-lint-ignore no-unused-vars
     mismatches.forEach(({ index, header1, header2 }) => {
       if (headers1.includes(header2)) {
-        const hidx2 = headers1.indexOf(header2) + 1;
-        console.log(
-          `\tAt position ${
-            excelColNumberToName(index + 1)
-          }: file1='${header1}' and file2='${header2}' (at ${
-            excelColNumberToName(hidx2)
-          } in file2) are swapped.`,
-        );
-        return;
+        const hidx2 = headers1.indexOf(header2);
+        const fromColName = excelColNumberToName(hidx2 + 1);
+        const toColName = excelColNumberToName(index + 1);
+
+        collectionSwaps.push({
+          header: header2,
+          from: hidx2,
+          to: index,
+          fromCol: fromColName,
+          toCol: toColName,
+        });
       }
     });
+    printCollectionSwaps(collectionSwaps);
+    return collectionSwaps;
   }
+  // Always return an array if no conditions above are met
+  return [];
 }
 
+export function printCollectionSwaps(swaps: CollectionSwap[]): string {
+  let message = "";
+  if (swaps.length > 0) {
+    // deno-lint-ignore no-unused-vars
+    swaps.forEach(({ header, from, to, fromCol, toCol }) => {
+      const nextMessage =
+        `🔄 Header: '${header}' moved from: ${fromCol} to: ${toCol}\n`;
+      console.log(
+        nextMessage,
+      );
+      message += nextMessage;
+    });
+  } else {
+    const nextMessage = "No header swaps detected.\n";
+    console.log(nextMessage);
+    message += nextMessage;
+  }
+  return message;
+}
 export function compareHeadersCall(cliArgs: string[]) {
   XLSX.set_cptable(cptable);
 

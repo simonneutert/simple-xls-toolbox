@@ -192,9 +192,15 @@ validator will inform you about it.
 When comparing headers of two Excel files, the output will indicate whether the
 headers match or if there are discrepancies.
 
+```sh
+NODE_ENV=test deno --allow-all main.ts compare-headers
+```
+
+will output something like this if there are differences:
+
 ```text
 Headers in test/resources/test1.xlsx (data): [ "m", "n\n\nb", "a", "m_1" ]
-Headers in ./test/resources/test2.xlsx (data): [
+Headers in test/resources/test2.xlsx (data): [
   "a", "b", "c", "d",
   "e", "f", "g", "h",
   "i", "j", "k"
@@ -206,7 +212,7 @@ Headers only in file 2: [
   "j", "k"
 ]
 Header order/content mismatches detected:
-	At position A: file1='m' and file2='a' (at C in file2) are swapped.
+🔄 Header: 'a' moved from: C to: A
 ```
 
 ## FAQ
