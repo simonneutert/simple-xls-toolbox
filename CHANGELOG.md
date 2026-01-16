@@ -19,6 +19,11 @@ Use this as a placeholder for upcoming changes. 👇️
 
 ## [Unreleased]
 
+- Changed: [#3](https://github.com/simonneutert/simple-xls-toolbox/pull/3):
+  Cleaner implementation of "compare-headers" command. Now outputs a message
+  indicating no differences when headers match.
+  [@simonneutert](https://github.com/simonneutert)
+
 ## [v0.0.2] - 2026-01-15
 
 - Fixed: [#2](https://github.com/simonneutert/simple-xls-toolbox/pull/2):
