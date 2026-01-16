@@ -145,6 +145,34 @@ NODE_ENV=test deno main.ts compare-headers
    ```
 4. The compiled binary will be available in the project directory.
 
+## Using Docker/Podman
+
+This project uses a Distroless container image for its final Docker build.
+Distroless images contain only the application and its runtime dependencies,
+without package managers or shells. This approach helps reduce image size and
+improves security by minimizing the attack surface.
+
+```sh
+# clone the repository, then change into its directory.
+# build the container image:
+podman build -t simple-xls-toolbox:latest -f Containerfile .
+```
+
+Run the validator with your Excel file and schema inside the container:
+
+```sh
+# Example command how you could run the container image. 
+# Make sure that you use `/app/data` as the mount point inside the container,
+# as /app is the working directory of the container image.
+podman run --rm -it \
+  -v $(pwd):/app/data:ro,Z \ # :Z is needed for SELinux systems like Fedora, :ro makes the mount read-only
+  simple-xls-toolbox:latest \
+  validate-excel \
+  --file data/sample_validation.xlsx \ # the path to your file on the host, prefixed with 'data/' to match the mount point
+  --sheet Sheet1 \
+  --validateSheet data/sample_schema.js # the path to your schema on the host, prefixed with 'data/' to match the mount point
+```
+
 ## Sample Schema File
 
 Put this in a file, e.g., `my_company_schema.js` and adjust it to your needs.
