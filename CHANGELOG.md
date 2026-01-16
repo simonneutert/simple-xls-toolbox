@@ -19,6 +19,8 @@ Use this as a placeholder for upcoming changes. 👇️
 
 ## [Unreleased]
 
+## [v0.0.3] - 2026-01-16
+
 - Added: [#4](https://github.com/simonneutert/simple-xls-toolbox/pull/4): Add
   Containerfile for building and testing in containerized environments.
   [@simonneutert](https://github.com/simonneutert)
