@@ -68,7 +68,7 @@ Deno.test(function testPrintCollectionSwaps() {
   const message = printCollectionSwaps(result);
   assertEquals(
     message,
-    "🔄 Header: 'a' moved from: C to: A\n",
+    "Header: 'a' moved from: C to: A\n",
   );
 
   const messageEmpty = printCollectionSwaps([]);

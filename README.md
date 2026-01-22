@@ -210,9 +210,9 @@ If you miss the column name, because of a typo or different naming, the
 validator will inform you about it.
 
 ```text
-❌ Row 1 has invalid fields.
+Row with first column value '1' has invalid fields.
         - Field "Colooooooors": Value: "undefined" 
-        ❌ Invalid option: expected one of "red"|"green"|"blue"
+        Invalid option: expected one of "red"|"green"|"blue"
 ```
 
 ## Header Comparison Console Output
@@ -240,7 +240,7 @@ Headers only in file 2: [
   "j", "k"
 ]
 Header order/content mismatches detected:
-🔄 Header: 'a' moved from: C to: A
+Header: 'a' moved from: C to: A
 ```
 
 ## FAQ
