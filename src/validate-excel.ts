@@ -26,7 +26,9 @@ function logInvalids(result: Record<string, unknown>) {
   let messages = "";
   if (result.invalid && result.invalid instanceof Array) {
     result.invalid.forEach((row) => {
-      const rowMessage = `\n❌ Row ${row.data.Levels} has invalid fields.`;
+      const rowMessage = `\nRow with first column value '${
+        String(row.data[Object.keys(row.data)[0]]).slice(0, 24)
+      }' has invalid fields.`;
       console.log(rowMessage);
       const message = printRow(row, rowMessage);
       if (message) {
@@ -72,7 +74,7 @@ function printRow(row: ZodRowResult, rowMessage: string): string | void {
         : String(pathPart);
       const newMessage = `\t- Field "${pathStr}": Value: "${
         row.data[pathPart]
-      }" \n\t❌ ${issue.message}`;
+      }" \n\t${issue.message}`;
       console.log(newMessage);
       message += newMessage;
     });
@@ -90,6 +92,7 @@ export async function validateExcelData(
 
   const file = `${Deno.cwd()}/${args.file!}`;
   const workbook = XLSX.readFile(file);
+  console.log(workbook);
   const validator = createValidator(workbook);
 
   let schema: z.ZodTypeAny;

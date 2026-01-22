@@ -120,7 +120,7 @@ export function printCollectionSwaps(swaps: CollectionSwap[]): string {
     // deno-lint-ignore no-unused-vars
     swaps.forEach(({ header, from, to, fromCol, toCol }) => {
       const nextMessage =
-        `🔄 Header: '${header}' moved from: ${fromCol} to: ${toCol}\n`;
+        `Header: '${header}' moved from: ${fromCol} to: ${toCol}\n`;
       console.log(
         nextMessage,
       );

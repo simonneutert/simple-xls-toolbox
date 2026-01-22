@@ -23,23 +23,31 @@ Deno.test(async function testValidateExcelDataMessage() {
   // Row 2 in sample_validation.xlsx should be kept valid in all examples, at all times!
   //
   // This is meant to be a sanity check to ensure that valid rows are not reported as invalid.
-  assert(!message.includes("❌ Row 2"));
+  assert(!message.includes("Row 2"));
 
   // check for other rows and specific error messages
-  assert(message.includes("❌ Row 1 has invalid fields."));
+  assert(
+    message.includes("Row with first column value '1' has invalid fields."),
+  );
   assert(
     message.includes('- Field "FoodOrder": Value: "Salad,Fries,Fries,Soda"'),
   );
-  assert(message.includes("❌ Invalid food order combination"));
-  assertEquals(message.includes("❌ Row 4 has invalid fields."), true);
-  assertEquals(message.includes("❌ Row 5 has invalid fields."), true);
+  assert(message.includes("Invalid food order combination"));
   assertEquals(
-    message.includes('❌ Invalid option: expected one of "Yes"|"No"'),
+    message.includes("Row with first column value '4' has invalid fields."),
+    true,
+  );
+  assertEquals(
+    message.includes("Row with first column value '5' has invalid fields."),
+    true,
+  );
+  assertEquals(
+    message.includes('Invalid option: expected one of "Yes"|"No"'),
     true,
   );
   assertEquals(message.includes('Field "HaveYouEver": Value: "NO" '), true);
   assertEquals(
-    message.includes("❌ Too small: expected string to have >=3 characters"),
+    message.includes("Too small: expected string to have >=3 characters"),
     true,
   );
   assertEquals(message.includes('Field "Col with\\nLineBreak"'), true);
