@@ -92,7 +92,6 @@ export async function validateExcelData(
 
   const file = `${Deno.cwd()}/${args.file!}`;
   const workbook = XLSX.readFile(file);
-  console.log(workbook);
   const validator = createValidator(workbook);
 
   let schema: z.ZodTypeAny;
