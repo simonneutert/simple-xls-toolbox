@@ -21,9 +21,10 @@ Use this as a placeholder for upcoming changes. 👇️
 
 ## [v0.0.6] - 2026-01-22
 
-- Fixed: [#9](https://github.com/simonneutert/simple-xls-toolbox/pull/9) Fixed
-  sheetName/sheet selection in multi-sheet Excel for the `validate-excel`
-  command. [@simonneutert](https://github.com/simonneutert)
+- Fixed: [#9](https://github.com/simonneutert/simple-xls-toolbox/pull/9) The
+  selection of the sheetName/sheet in multi-sheet Excel is now properly working
+  when using the command `validate-excel` command.
+  [@simonneutert](https://github.com/simonneutert)
 
 ## [v0.0.5] - 2026-01-22
 
