@@ -1,7 +1,7 @@
 {
   "tasks": {
     "dev": "deno run --watch main.ts",
-    "prepare-release": "deno fmt && deno check --allow-import && deno lint && deno test --allow-import --allow-read",
+    "prepare-release": "deno check --allow-import && deno fmt && deno lint && deno test --allow-import --allow-read",
     "package": {
       "dependencies": [
         "compileLinuxAarch64",
