@@ -15,7 +15,10 @@ Use the following headers for organizing changes:
 - **Fixed** for any bug fixes.
 - **Security** to invite attention to security-related changes.
 
-Use this as a placeholder for upcoming changes. 👇️
+Please use the following format for each entry:
+
+- [Type]: [#IssueNumber](link to issue or pull request) Short description of the
+  change. [@username](link to GitHub profile)
 
 ## [Unreleased]
 
