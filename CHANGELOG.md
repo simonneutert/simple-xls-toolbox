@@ -19,6 +19,27 @@ Use this as a placeholder for upcoming changes. 👇️
 
 ## [Unreleased]
 
+## [v0.0.6] - 2026-01-22
+
+- Fixed: [#9](https://github.com/simonneutert/simple-xls-toolbox/pull/9) Fixed
+  sheetName/sheet selection in multi-sheet Excel for the `validate-excel`
+  command. [@simonneutert](https://github.com/simonneutert)
+
+## [v0.0.5] - 2026-01-22
+
+- Fixed: [#8](https://github.com/simonneutert/simple-xls-toolbox/pull/8) Remove
+  debug log for workbook in validateExcelData function.
+  [@simonneutert](https://github.com/simonneutert)
+
+## [v0.0.4] - 2026-01-22
+
+- Fixed: [#6](https://github.com/simonneutert/simple-xls-toolbox/pull/6) deno
+  outdated --update to update packages.
+  [@simonneutert](https://github.com/simonneutert)
+- Fixed: [#7](https://github.com/simonneutert/simple-xls-toolbox/pull/7)
+  Refactor error messages in validation and header comparison outputs for
+  clarity. [@simonneutert](https://github.com/simonneutert)
+
 ## [v0.0.3] - 2026-01-16
 
 - Added: [#4](https://github.com/simonneutert/simple-xls-toolbox/pull/4): Add
@@ -28,6 +49,7 @@ Use this as a placeholder for upcoming changes. 👇️
 - Changed: [#3](https://github.com/simonneutert/simple-xls-toolbox/pull/3):
   Cleaner implementation of "compare-headers" command. Now outputs a message
   indicating no differences when headers match.
+  [@simonneutert](https://github.com/simonneutert)
 
 ## [v0.0.2] - 2026-01-15
 
