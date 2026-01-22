@@ -5,6 +5,8 @@ import { z } from "zod";
 
 // deno-lint-ignore no-unused-vars
 import { generateStringCombinations } from "@simonneutert/string-combinations-generator";
+// @ts-types="https://cdn.sheetjs.com/xlsx-0.20.3/package/types/index.d.ts"
+import { WorkBook } from "xlsx";
 // 👆️ // Keep this import so that `generateStringCombinations` is bundled when
 // `deno compile` is used. This ensures the function is available to schema
 // files that reference it, such as `sample_schema.js`.
@@ -91,8 +93,10 @@ export async function validateExcelData(
   });
 
   const file = `${Deno.cwd()}/${args.file!}`;
-  const workbook = XLSX.readFile(file);
-  const validator = createValidator(workbook);
+  const workbook = XLSX.readFile(file) as WorkBook;
+  const validator = createValidator(workbook, {
+    sheetName: args.sheet,
+  });
 
   let schema: z.ZodTypeAny;
   if (args.validateSheet && args.validateSheet.endsWith(".js")) {

@@ -10,7 +10,22 @@ It currently supports two main functions:
 1. **Compare Excel File Headers**: Compare the headers of two Excel files to
    identify differences in column names and order.
 2. **Validate Excel File Against a Schema**: Validate the data in an Excel file
-   against a predefined schema using [Zod](https://zod.dev/).
+   against a predefined schema using
+   [Zod-xlsx](https://github.com/sidwebworks/zod-xlsx) (based on the infamous
+   [Zod](https://zod.dev/)).
+
+## What you need to bring and what you'll learn
+
+- You need basic knowledge of TypeScript / JavaScript.
+  - If you did not already know about Deno, you'll learn how amazing
+    [DenoJS](https://deno.land/) is.
+  - [Zod](https://zod.dev/) (for validation schemas) - this is an invaluable
+    skill by itself.
+- You need basic knowledge of Excel files.
+  - So, learning this software will help you hate them less.
+- You need very basic skills using a terminal.
+- _Optionally_ you'll need basic knowledge of Docker/Podman (for container
+  usage).
 
 ## Rationale
 
@@ -24,7 +39,7 @@ The _Simple XLS Toolbox_ provides a straightforward way to validate Excel file
 data against predefined schemas using Zod, a TypeScript-first schema declaration
 and validation library.
 
-![Simple XLS Toolbox Visualisation - An Excel file being interrogated by two agents.](ai_logo.jpg)
+![Simple XLS Toolbox Visualisation - A comic of an Excel file being interrogated by two agents.](ai_logo.jpg)
 
 ## Limitations
 
