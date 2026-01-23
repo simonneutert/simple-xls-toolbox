@@ -31,7 +31,12 @@ import { generateStringCombinations } from "@simonneutert/string-combinations-ge
 // Adjust the path as necessary.
 
 // define possible food combinations, to be used in the schema
-const foodCombinations = generateStringCombinations(["Salad", "Fries", "Soda"]);
+// the separator in the excel cell is a comma
+const listSeparator = ",";
+const foodCombinations = generateStringCombinations(
+  ["Salad", "Fries", "Soda"],
+  listSeparator,
+);
 
 const schema = z.object({
   "Levels": z.number(),
@@ -42,7 +47,7 @@ const schema = z.object({
     .refine((val) => {
       // multiple drinks separated by commas, but no literal value is expected
       try {
-        return val.split(",").every((s) => s.trim().length);
+        return val.split(listSeparator).every((s) => s.trim().length);
       } catch (error) {
         console.error(error);
         return false;
@@ -55,7 +60,7 @@ const schema = z.object({
     (val) =>
       foodCombinations.includes(
         // user may add spaces before/after commas (or not)
-        val.split(",").map((s) => s.trim()).join(","),
+        val.split(listSeparator).map((s) => s.trim()).join(listSeparator),
       ),
     { error: "Invalid food order combination" },
   ).optional(),

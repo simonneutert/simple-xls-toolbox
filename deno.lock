@@ -1,16 +1,16 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@simonneutert/string-combinations-generator@0.1": "0.1.0",
+    "jsr:@simonneutert/string-combinations-generator@0.2": "0.2.0",
     "jsr:@std/assert@^1.0.17": "1.0.17",
-    "jsr:@std/cli@1.0.25": "1.0.25",
+    "jsr:@std/cli@1.0.26": "1.0.26",
     "jsr:@std/internal@^1.0.12": "1.0.12",
-    "npm:zod-xlsx@0.10": "0.10.0_xlsx@0.18.5_zod@4.3.5",
-    "npm:zod@^4.3.5": "4.3.5"
+    "npm:zod-xlsx@0.10": "0.10.0_xlsx@0.18.5_zod@4.3.6",
+    "npm:zod@^4.3.6": "4.3.6"
   },
   "jsr": {
-    "@simonneutert/string-combinations-generator@0.1.0": {
-      "integrity": "45b33888160c82cc3e522777abe57181eb255fa93f7d67013a5bb0ced5706a17"
+    "@simonneutert/string-combinations-generator@0.2.0": {
+      "integrity": "169c94e5ab8953ec0abbbd76b0f5caabd1b388901ca88ca8c8d74a46e3b3966a"
     },
     "@std/assert@1.0.17": {
       "integrity": "df5ebfffe77c03b3fa1401e11c762cc8f603d51021c56c4d15a8c7ab45e90dbe",
@@ -18,8 +18,8 @@
         "jsr:@std/internal"
       ]
     },
-    "@std/cli@1.0.25": {
-      "integrity": "1f85051b370c97a7a9dfc6ba626e7ed57a91bea8c081597276d1e78d929d8c91",
+    "@std/cli@1.0.26": {
+      "integrity": "53679a2b041406f15c3ff193986852595f3d11ba7b9d4b0c71a42589662e8fb5",
       "dependencies": [
         "jsr:@std/internal"
       ]
@@ -74,15 +74,15 @@
       ],
       "bin": true
     },
-    "zod-xlsx@0.10.0_xlsx@0.18.5_zod@4.3.5": {
+    "zod-xlsx@0.10.0_xlsx@0.18.5_zod@4.3.6": {
       "integrity": "sha512-nFUnkwtcQ3vDTBnCaGKz0/wOUJl2C6HhlRCke8M666lrZ6NshOj6uKgoskRSMzbabu4m6NBZ7pJuiqiZTcLigg==",
       "dependencies": [
         "xlsx",
         "zod"
       ]
     },
-    "zod@4.3.5": {
-      "integrity": "sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g=="
+    "zod@4.3.6": {
+      "integrity": "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="
     }
   },
   "remote": {
@@ -91,11 +91,11 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@simonneutert/string-combinations-generator@0.1",
+      "jsr:@simonneutert/string-combinations-generator@0.2",
       "jsr:@std/assert@^1.0.17",
-      "jsr:@std/cli@1.0.25",
+      "jsr:@std/cli@1.0.26",
       "npm:zod-xlsx@0.10",
-      "npm:zod@^4.3.5"
+      "npm:zod@^4.3.6"
     ]
   }
 }

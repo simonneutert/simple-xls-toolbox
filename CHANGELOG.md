@@ -22,6 +22,14 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+## [v0.0.7] - 2026-01-23
+
+- Changed: [#11](https://github.com/simonneutert/simple-xls-toolbox/pull/11)
+  Update https://jsr.io/@simonneutert/string-combinations-generator with
+  breaking change: separator is now ";" by default. Updated README.md to include
+  information about the built-in helper for generating string combinations.
+  [@simonneutert](https://github.com/simonneutert)
+
 ## [v0.0.6] - 2026-01-22
 
 - Fixed: [#9](https://github.com/simonneutert/simple-xls-toolbox/pull/9) The

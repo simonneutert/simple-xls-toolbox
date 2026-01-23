@@ -195,6 +195,8 @@ Put this in a file, e.g., `my_company_schema.js` and adjust it to your needs.
 Line breaks in column names are supported. Simply use `\n` in the string for a
 line break.
 
+Built-in helper: https://jsr.io/@simonneutert/string-combinations-generator
+
 ```js
 // super_simple_sample_schema.js
 // you can find a more complex example template
