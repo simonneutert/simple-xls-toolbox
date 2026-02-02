@@ -1,19 +1,19 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@simonneutert/string-combinations-generator@0.2": "0.2.0",
-    "jsr:@std/assert@^1.0.17": "1.0.17",
+    "jsr:@simonneutert/string-combinations-generator@~0.2.1": "0.2.1",
+    "jsr:@std/assert@^1.0.18": "1.0.18",
     "jsr:@std/cli@1.0.26": "1.0.26",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "npm:zod-xlsx@0.10": "0.10.0_xlsx@0.18.5_zod@4.3.6",
     "npm:zod@^4.3.6": "4.3.6"
   },
   "jsr": {
-    "@simonneutert/string-combinations-generator@0.2.0": {
-      "integrity": "169c94e5ab8953ec0abbbd76b0f5caabd1b388901ca88ca8c8d74a46e3b3966a"
+    "@simonneutert/string-combinations-generator@0.2.1": {
+      "integrity": "aa7bacb9eba09efec727dfcf82ffcf3e7e692eda827ac0331c32953f27f4791e"
     },
-    "@std/assert@1.0.17": {
-      "integrity": "df5ebfffe77c03b3fa1401e11c762cc8f603d51021c56c4d15a8c7ab45e90dbe",
+    "@std/assert@1.0.18": {
+      "integrity": "270245e9c2c13b446286de475131dc688ca9abcd94fc5db41d43a219b34d1c78",
       "dependencies": [
         "jsr:@std/internal"
       ]
@@ -91,8 +91,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@simonneutert/string-combinations-generator@0.2",
-      "jsr:@std/assert@^1.0.17",
+      "jsr:@simonneutert/string-combinations-generator@~0.2.1",
+      "jsr:@std/assert@^1.0.18",
       "jsr:@std/cli@1.0.26",
       "npm:zod-xlsx@0.10",
       "npm:zod@^4.3.6"
