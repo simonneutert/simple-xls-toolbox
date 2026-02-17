@@ -11,17 +11,25 @@ import { ZodObject } from "zod";
 
 // @ts-types="https://cdn.sheetjs.com/xlsx-0.20.3/package/types/index.d.ts"
 import { WorkBook } from "xlsx";
+import {
+  hasIssues,
+  sanitizePathPart,
+  validateSheetName,
+} from "./helpers/guards.ts";
+import { loadSchema } from "./load-schema.ts";
 
-async function loadSchema(sheetPath: string): Promise<ZodObject> {
-  const imported = await import(
-    new URL(sheetPath, `file://${Deno.cwd()}/`).href
-  );
-  const schema = imported.default || imported.schema;
-  if (!schema) throw new Error("No schema exported from JS file");
-  return schema;
-}
+export type ZodRowResult = {
+  data: Record<string, unknown>;
+  isValid: boolean;
+  issues: Array<{
+    code: string;
+    message: string;
+    path: string[];
+    values?: unknown[];
+  }>;
+};
 
-function logInvalids(result: Record<string, unknown>) {
+function logInvalids(result: Record<string, unknown>): string | null {
   if (!("invalid" in result)) {
     console.log("No invalid entries found in the result.");
     return null;
@@ -42,27 +50,6 @@ function logInvalids(result: Record<string, unknown>) {
   return messages;
 }
 
-type ZodRowResult = {
-  data: Record<string, unknown>;
-  isValid: boolean;
-  issues: Array<{
-    code: string;
-    message: string;
-    path: string[];
-    values?: unknown[];
-  }>;
-};
-
-function hasIssues(row: ZodRowResult): boolean {
-  return row.issues &&
-    (row.issues instanceof Array) &&
-    row.issues.length > 0;
-}
-
-function isString(val: unknown): val is string {
-  return typeof val === "string";
-}
-
 function printRow(row: ZodRowResult, rowMessage: string): string | void {
   if (!hasIssues(row)) {
     console.log("No issues found for this row.");
@@ -72,10 +59,7 @@ function printRow(row: ZodRowResult, rowMessage: string): string | void {
   let message = rowMessage + "\n";
   row.issues.forEach((issue) => {
     issue.path.forEach((pathPart: string | number, _index: number) => {
-      const pathStr = isString(pathPart)
-        ? `${pathPart}`.replace(/\n/g, "\\n")
-        : String(pathPart);
-      const newMessage = `\t- Field "${pathStr}": Value: "${
+      const newMessage = `\t- Field "${sanitizePathPart(pathPart)}": Value: "${
         row.data[pathPart]
       }" \n\t${issue.message}`;
       console.log(newMessage);
@@ -88,29 +72,21 @@ function printRow(row: ZodRowResult, rowMessage: string): string | void {
 function findExclusiveColumns(
   sheetColumns: string[],
   schemaHeader: string[],
-) {
+): void {
   const onlyinFile1 = sheetColumns.filter((col) => !schemaHeader.includes(col));
   const onlyinFile2 = schemaHeader.filter((col) => !sheetColumns.includes(col));
-  console.log(
-    "Headers only in the Excel sheet:\n",
-    onlyinFile1.join(", ") || "None",
-  );
-  console.log(
-    "Headers only in the schema:\n",
-    onlyinFile2.join(", ") || "None",
-  );
-}
-
-function validateSheetName(workbook: WorkBook, sheetName: string) {
-  if (!(typeof sheetName === "string" && sheetName in workbook.Sheets)) {
-    console.error(
-      `Sheet "${sheetName}" not found in the workbook. Available sheets: ${
-        Object.keys(workbook.Sheets).join(", ")
-      }`,
+  if (onlyinFile1.length > 0) {
+    console.log(
+      "Headers only in the Excel sheet:\n",
+      onlyinFile1.join(", ") || "None",
     );
-    Deno.exit(1);
   }
-  return sheetName;
+  if (onlyinFile2.length > 0) {
+    console.log(
+      "Headers only in the schema:\n",
+      onlyinFile2.join(", ") || "None",
+    );
+  }
 }
 
 export async function validateExcelData(
@@ -128,16 +104,7 @@ export async function validateExcelData(
     sheetName: sheetName,
   });
 
-  let schema: ZodObject;
-  if (args.validateSheet && args.validateSheet.endsWith(".js")) {
-    schema = await loadSchema(args.validateSheet);
-  } else {
-    console.warn(
-      "No valid schema provided, using default schema for demonstration.",
-    );
-    Deno.exit(1);
-  }
-
+  const schema: ZodObject = await loadSchema(args.validateSheet!);
   const xlsxUtils = XLSX.utils as XLSX.XLSX$Utils;
   const sheetObject = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName]);
   const sheetColumnNames = Object.keys(sheetObject[0] || {});
