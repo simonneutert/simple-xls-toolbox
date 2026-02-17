@@ -22,9 +22,17 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+## [v0.0.9] - 2026-02-17
+
+- Added: [#13](https://github.com/simonneutert/simple-xls-toolbox/pull/13) Add
+  validation for column header in file input and the schema.
+  [@simonneutert](https://github.com/simonneutert)
+
 ## [v0.0.8] - 2026-02-02
 
-- Security: [#12](https://github.com/simonneutert/simple-xls-toolbox/pull/11)
+- Security: [#12](https://github.com/simonneutert/simple-xls-toolbox/pull/12)
+  Updates dependencies. [@simonneutert](https://github.com/simonneutert)
+- Security: [#11](https://github.com/simonneutert/simple-xls-toolbox/pull/11)
   Updates dependencies. [@simonneutert](https://github.com/simonneutert)
 
 ## [v0.0.7] - 2026-01-23
