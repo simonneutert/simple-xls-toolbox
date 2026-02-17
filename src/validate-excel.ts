@@ -1,17 +1,18 @@
-import { parseArgs } from "@std/cli";
-import * as XLSX from "xlsx";
-import { createValidator } from "zod-xlsx";
-import { z } from "zod";
-
 // deno-lint-ignore no-unused-vars
 import { generateStringCombinations } from "@simonneutert/string-combinations-generator";
-// @ts-types="https://cdn.sheetjs.com/xlsx-0.20.3/package/types/index.d.ts"
-import { WorkBook } from "xlsx";
 // 👆️ // Keep this import so that `generateStringCombinations` is bundled when
 // `deno compile` is used. This ensures the function is available to schema
 // files that reference it, such as `sample_schema.js`.
 
-async function loadSchema(sheetPath: string): Promise<z.ZodTypeAny> {
+import { parseArgs } from "@std/cli";
+import * as XLSX from "xlsx";
+import { createValidator } from "zod-xlsx";
+import { ZodObject } from "zod";
+
+// @ts-types="https://cdn.sheetjs.com/xlsx-0.20.3/package/types/index.d.ts"
+import { WorkBook } from "xlsx";
+
+async function loadSchema(sheetPath: string): Promise<ZodObject> {
   const imported = await import(
     new URL(sheetPath, `file://${Deno.cwd()}/`).href
   );
@@ -84,6 +85,34 @@ function printRow(row: ZodRowResult, rowMessage: string): string | void {
   return message;
 }
 
+function findExclusiveColumns(
+  sheetColumns: string[],
+  schemaHeader: string[],
+) {
+  const onlyinFile1 = sheetColumns.filter((col) => !schemaHeader.includes(col));
+  const onlyinFile2 = schemaHeader.filter((col) => !sheetColumns.includes(col));
+  console.log(
+    "Headers only in the Excel sheet:\n",
+    onlyinFile1.join(", ") || "None",
+  );
+  console.log(
+    "Headers only in the schema:\n",
+    onlyinFile2.join(", ") || "None",
+  );
+}
+
+function validateSheetName(workbook: WorkBook, sheetName: string) {
+  if (!(typeof sheetName === "string" && sheetName in workbook.Sheets)) {
+    console.error(
+      `Sheet "${sheetName}" not found in the workbook. Available sheets: ${
+        Object.keys(workbook.Sheets).join(", ")
+      }`,
+    );
+    Deno.exit(1);
+  }
+  return sheetName;
+}
+
 export async function validateExcelData(
   cliArgs: string[],
   callback?: (message: string) => string,
@@ -94,11 +123,12 @@ export async function validateExcelData(
 
   const file = `${Deno.cwd()}/${args.file!}`;
   const workbook = XLSX.readFile(file) as WorkBook;
+  const sheetName = validateSheetName(workbook, args.sheet!);
   const validator = createValidator(workbook, {
-    sheetName: args.sheet,
+    sheetName: sheetName,
   });
 
-  let schema: z.ZodTypeAny;
+  let schema: ZodObject;
   if (args.validateSheet && args.validateSheet.endsWith(".js")) {
     schema = await loadSchema(args.validateSheet);
   } else {
@@ -107,6 +137,13 @@ export async function validateExcelData(
     );
     Deno.exit(1);
   }
+
+  const xlsxUtils = XLSX.utils as XLSX.XLSX$Utils;
+  const sheetObject = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName]);
+  const sheetColumnNames = Object.keys(sheetObject[0] || {});
+  const schemaHeader = Object.keys(schema.shape);
+  findExclusiveColumns(sheetColumnNames, schemaHeader);
+
   const result = validator.validate(schema);
   const message = logInvalids(result);
   if (callback) {
