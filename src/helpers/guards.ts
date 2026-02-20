@@ -8,6 +8,10 @@ export function hasIssues(row: ZodRowResult): boolean {
     row.issues.length > 0;
 }
 
+export function isPresentAndArray(val: unknown): val is Array<unknown> {
+  return val !== undefined && val !== null && val instanceof Array;
+}
+
 export function isString(val: unknown): val is string {
   return typeof val === "string";
 }

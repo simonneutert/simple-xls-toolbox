@@ -13,6 +13,7 @@ import { ZodObject } from "zod";
 import { WorkBook } from "xlsx";
 import {
   hasIssues,
+  isPresentAndArray,
   sanitizePathPart,
   validateSheetName,
 } from "./helpers/guards.ts";
@@ -34,9 +35,10 @@ function logInvalids(result: Record<string, unknown>): string | null {
     console.log("No invalid entries found in the result.");
     return null;
   }
+
   let messages = "";
-  if (result.invalid && result.invalid instanceof Array) {
-    result.invalid.forEach((row) => {
+  if (isPresentAndArray(result.invalid)) {
+    (result.invalid as ZodRowResult[]).forEach((row: ZodRowResult) => {
       const rowMessage = `\nRow with first column value '${
         String(row.data[Object.keys(row.data)[0]]).slice(0, 24)
       }' has invalid fields.`;
