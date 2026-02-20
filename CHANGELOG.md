@@ -22,6 +22,8 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+## [v0.0.10] - 2026-02-20
+
 - Fixed: [#14](https://github.com/simonneutert/simple-xls-toolbox/pull/14)
   Cleanup code base after initial release.
   [@simonneutert](https://github.com/simonneutert)
