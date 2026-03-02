@@ -128,7 +128,7 @@ export async function validateExcelData(
   callback?: (message: string) => string,
 ) {
   const args = parseArgs(cliArgs, {
-    string: ["file", "sheet", "validateSheet", "referenceColumn"],
+    string: ["file", "sheet", "validateSheet", "reference-column"],
   });
 
   const file = `${Deno.cwd()}/${args.file!}`;
@@ -147,7 +147,7 @@ export async function validateExcelData(
 
   const referenceColumnIdx: number = findColumnIndexByName(
     sheetColumnNames,
-    args.referenceColumn,
+    args["reference-column"],
   );
 
   const result = validator.validate(schema);
