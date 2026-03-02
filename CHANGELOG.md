@@ -22,6 +22,9 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+- Added: [#17](https://github.com/simonneutert/simple-xls-toolbox/pull/17) Add
+  support for specifying a reference column in validation logs.
+  [@simonneutert](https://github.com/simonneutert)
 - Changed: [#16](https://github.com/simonneutert/simple-xls-toolbox/pull/16)
   Inlines error messages for better readability and adds a note about how to
   filter the validation logs. [@simonneutert](https://github.com/simonneutert)

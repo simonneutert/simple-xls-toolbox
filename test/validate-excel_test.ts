@@ -68,7 +68,7 @@ Deno.test(async function testValidateExcelDataMessageFaultyRefRaises() {
         "sheet1",
         "--validateSheet",
         "./test/resources/sample_schema.js",
-        "--referenceColumn",
+        "--reference-column",
         "Colorsssssssssss",
       ],
     );
@@ -85,7 +85,7 @@ Deno.test(async function testValidateExcelDataMessageColorRef() {
       "sheet1",
       "--validateSheet",
       "./test/resources/sample_schema.js",
-      "--referenceColumn",
+      "--reference-column",
       "Colors",
     ],
     (msg: string) => {

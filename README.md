@@ -101,21 +101,26 @@ deno main.ts compare-headers \
 
 ### Validate Excel File Against a Schema
 
-- `referenceColumn` is optional, but it will make the error messages much more
-  informative. It will use the value of the specified column in the error
-  messages, instead of just falling back to the first column value. This is
-  especially useful if the first column contains non-unique or non-informative
-  values (e.g., IDs, timestamps, etc.). By using a more descriptive column (like
-  "Name", "Description", etc.) as the reference, you can easily identify which
-  row has the validation issue without having to cross-reference with the
-  original Excel file.
+- `--reference-column` is optional, but it makes the error messages more
+  informative. It uses the value of the specified header in the error messages
+  instead of falling back to the first column value. This is useful when the
+  first column contains non-unique or non-informative values (e.g. IDs or
+  timestamps).
+
+- Behavior notes:
+  - The flag expects an exact header name (case-sensitive), not a column index.
+    If the named column is not found the command will throw an error — ensure
+    the header matches exactly.
+  - If omitted the validator falls back to the first column value.
+  - Displayed reference values in logs are truncated to the first ~24
+    characters.
 
 ```sh
 deno main.ts validate-excel \
     --file ./test/resources/sample_validation.xlsx \
     --sheet sheet1 \
     --validateSheet ./test/resources/sample_schema.js \
-    --referenceColumn "Levels"
+    --reference-column "Levels"
 ```
 
 ```sh
