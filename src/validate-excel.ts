@@ -67,7 +67,7 @@ function printRow(row: ZodRowResult, rowMessage: string): string | void {
     issue.path.forEach((pathPart: string | number, _index: number) => {
       const newMessage = `\t- Field "${sanitizePathPart(pathPart)}": Value: "${
         row.data[pathPart]
-      }" \n\t${issue.message}`;
+      }" - ${issue.message}`;
       console.log(newMessage);
       message += newMessage;
     });
@@ -84,13 +84,13 @@ function findExclusiveColumns(
   if (onlyinFile1.length > 0) {
     console.log(
       "Headers only in the Excel sheet:\n",
-      onlyinFile1.join(", ") || "None",
+      onlyinFile1.join("\n---\n") || "None",
     );
   }
   if (onlyinFile2.length > 0) {
     console.log(
       "Headers only in the schema:\n",
-      onlyinFile2.join(", ") || "None",
+      onlyinFile2.join("\n---\n") || "None",
     );
   }
 }

@@ -228,8 +228,19 @@ validator will inform you about it.
 
 ```text
 Row with first column value '1' has invalid fields.
-        - Field "Colooooooors": Value: "undefined" 
-        Invalid option: expected one of "red"|"green"|"blue"
+        - Field "Colooooooors": Value: "undefined" - Invalid option: expected one of "red"|"green"|"blue"
+```
+
+### Grep Logs for unique messages
+
+```sh
+deno main.ts validate-excel \
+   --file path/to/yourfile.xlsx \
+   --sheet Sheet1 \
+   --validateSheet path/to/my_company_schema.js > validate.log
+
+# filter the log for unique field error messages
+grep "Field" validate.log | sort | uniq > unique_field_errors.log
 ```
 
 ## Header Comparison Console Output
