@@ -1,4 +1,9 @@
-import { assert, assertEquals, assertInstanceOf } from "@std/assert";
+import {
+  assert,
+  assertEquals,
+  assertInstanceOf,
+  assertRejects,
+} from "@std/assert";
 import { validateExcelData } from "../src/validate-excel.ts";
 
 Deno.test(async function testValidateExcelDataMessage() {
@@ -27,18 +32,89 @@ Deno.test(async function testValidateExcelDataMessage() {
 
   // check for other rows and specific error messages
   assert(
-    message.includes("Row with first column value '1' has invalid fields."),
+    message.includes("Row with column value '1' has invalid fields."),
   );
   assert(
     message.includes('- Field "FoodOrder": Value: "Salad,Fries,Fries,Soda"'),
   );
   assert(message.includes("Invalid food order combination"));
   assertEquals(
-    message.includes("Row with first column value '4' has invalid fields."),
+    message.includes("Row with column value '4' has invalid fields."),
     true,
   );
   assertEquals(
-    message.includes("Row with first column value '5' has invalid fields."),
+    message.includes("Row with column value '5' has invalid fields."),
+    true,
+  );
+  assertEquals(
+    message.includes('Invalid option: expected one of "Yes"|"No"'),
+    true,
+  );
+  assertEquals(message.includes('Field "HaveYouEver": Value: "NO" '), true);
+  assertEquals(
+    message.includes("Too small: expected string to have >=3 characters"),
+    true,
+  );
+  assertEquals(message.includes('Field "Col with\\nLineBreak"'), true);
+});
+
+Deno.test(async function testValidateExcelDataMessageFaultyRefRaises() {
+  await assertRejects(async () => {
+    await validateExcelData(
+      [
+        "--file",
+        "./test/resources/sample_validation.xlsx",
+        "--sheet",
+        "sheet1",
+        "--validateSheet",
+        "./test/resources/sample_schema.js",
+        "--referenceColumn",
+        "Colorsssssssssss",
+      ],
+    );
+  });
+});
+
+Deno.test(async function testValidateExcelDataMessageColorRef() {
+  let message = "";
+  await validateExcelData(
+    [
+      "--file",
+      "./test/resources/sample_validation.xlsx",
+      "--sheet",
+      "sheet1",
+      "--validateSheet",
+      "./test/resources/sample_schema.js",
+      "--referenceColumn",
+      "Colors",
+    ],
+    (msg: string) => {
+      message += msg;
+      return msg;
+    },
+  );
+
+  // This is true for the current sample_validation.xlsx and sample_schema.js
+  // For future implementations:
+  // Row 2 in sample_validation.xlsx should be kept valid in all examples, at all times!
+  //
+  // This is meant to be a sanity check to ensure that valid rows are not reported as invalid.
+  assert(!message.includes("Row 2"));
+
+  // check for other rows and specific error messages
+  assert(
+    message.includes("Row with column value 'red' has invalid fields."),
+  );
+  assert(
+    message.includes('- Field "FoodOrder": Value: "Salad,Fries,Fries,Soda"'),
+  );
+  assert(message.includes("Invalid food order combination"));
+  assertEquals(
+    message.includes("Row with column value 'yellow' has invalid fields."),
+    true,
+  );
+  assertEquals(
+    message.includes("Row with column value 'transparent' has invalid fields."),
     true,
   );
   assertEquals(
