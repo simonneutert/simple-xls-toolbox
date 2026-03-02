@@ -22,6 +22,8 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+## [v0.0.12] - 2026-03-02
+
 - Added: [#17](https://github.com/simonneutert/simple-xls-toolbox/pull/17) Add
   support for specifying a reference column in validation logs.
   [@simonneutert](https://github.com/simonneutert)
