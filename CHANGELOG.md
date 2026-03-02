@@ -22,6 +22,10 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+- Changed: [#16](https://github.com/simonneutert/simple-xls-toolbox/pull/16)
+  Inlines error messages for better readability and adds a note about how to
+  filter the validation logs. [@simonneutert](https://github.com/simonneutert)
+
 ## [v0.0.11] - 2026-03-02
 
 - Changed: [#15](https://github.com/simonneutert/simple-xls-toolbox/pull/15)
