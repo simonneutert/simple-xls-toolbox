@@ -101,11 +101,21 @@ deno main.ts compare-headers \
 
 ### Validate Excel File Against a Schema
 
+- `referenceColumn` is optional, but it will make the error messages much more
+  informative. It will use the value of the specified column in the error
+  messages, instead of just falling back to the first column value. This is
+  especially useful if the first column contains non-unique or non-informative
+  values (e.g., IDs, timestamps, etc.). By using a more descriptive column (like
+  "Name", "Description", etc.) as the reference, you can easily identify which
+  row has the validation issue without having to cross-reference with the
+  original Excel file.
+
 ```sh
 deno main.ts validate-excel \
     --file ./test/resources/sample_validation.xlsx \
     --sheet sheet1 \
-    --validateSheet ./test/resources/sample_schema.js
+    --validateSheet ./test/resources/sample_schema.js \
+    --referenceColumn "Levels"
 ```
 
 ```sh

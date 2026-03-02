@@ -34,7 +34,35 @@ export type ZodRowResult = {
   }>;
 };
 
-function logInvalids(result: Record<string, unknown>): string | null {
+function replaceNewlinesWithLiteral(str: string): string {
+  return str.replace(/\n/g, "\\n");
+}
+
+function findColumnIndexByName(
+  columns: string[],
+  columnName: string | undefined,
+): number {
+  if (!columnName) return 0; // Default to the first column if no reference column is specified
+
+  const idx = columns.indexOf(columnName);
+  if (idx === -1) {
+    throw new Error(
+      `Reference column "${
+        replaceNewlinesWithLiteral(columnName)
+      }" not found in the sheet. Available columns: ${
+        columns.map((col) => replaceNewlinesWithLiteral(col)).join(
+          "\n",
+        )
+      }`,
+    );
+  }
+  return idx;
+}
+
+function logInvalids(
+  result: Record<string, unknown>,
+  referenceColumnIdx: number,
+): string | null {
   if (!("invalid" in result)) {
     console.log("No invalid entries found in the result.");
     return null;
@@ -43,8 +71,8 @@ function logInvalids(result: Record<string, unknown>): string | null {
   let messages = "";
   if (isPresentAndArray(result.invalid)) {
     (result.invalid as ZodRowResult[]).forEach((row: ZodRowResult) => {
-      const rowMessage = `\nRow with first column value '${
-        String(row.data[Object.keys(row.data)[0]]).slice(0, 24)
+      const rowMessage = `\nRow with column value '${
+        String(row.data[Object.keys(row.data)[referenceColumnIdx]]).slice(0, 24)
       }' has invalid fields.`;
       console.log(rowMessage);
       const message = printRow(row, rowMessage);
@@ -100,7 +128,7 @@ export async function validateExcelData(
   callback?: (message: string) => string,
 ) {
   const args = parseArgs(cliArgs, {
-    string: ["file", "sheet", "validateSheet"],
+    string: ["file", "sheet", "validateSheet", "referenceColumn"],
   });
 
   const file = `${Deno.cwd()}/${args.file!}`;
@@ -117,8 +145,13 @@ export async function validateExcelData(
   const schemaHeader = Object.keys(schema.shape);
   findExclusiveColumns(sheetColumnNames, schemaHeader);
 
+  const referenceColumnIdx: number = findColumnIndexByName(
+    sheetColumnNames,
+    args.referenceColumn,
+  );
+
   const result = validator.validate(schema);
-  const message = logInvalids(result);
+  const message = logInvalids(result, referenceColumnIdx);
   if (callback) {
     callback(message || "No invalid entries found.");
   }
