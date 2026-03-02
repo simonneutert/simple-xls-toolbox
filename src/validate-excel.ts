@@ -1,5 +1,9 @@
-// deno-lint-ignore no-unused-vars
-import { generateStringCombinations } from "@simonneutert/string-combinations-generator";
+import {
+  // deno-lint-ignore no-unused-vars
+  generateStringCombinations,
+  // deno-lint-ignore no-unused-vars
+  generateStringCombinationsSorted,
+} from "@simonneutert/string-combinations-generator";
 // 👆️ // Keep this import so that `generateStringCombinations` is bundled when
 // `deno compile` is used. This ensures the function is available to schema
 // files that reference it, such as `sample_schema.js`.

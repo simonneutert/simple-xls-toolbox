@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { generateStringCombinations } from "@simonneutert/string-combinations-generator";
+import {
+  // deno-lint-ignore no-unused-vars
+  generateStringCombinations,
+  generateStringCombinationsSorted,
+} from "@simonneutert/string-combinations-generator";
 
 // the simplest way is to just have your code inside the schema file
 //
@@ -33,7 +37,7 @@ import { generateStringCombinations } from "@simonneutert/string-combinations-ge
 // define possible food combinations, to be used in the schema
 // the separator in the excel cell is a comma
 const listSeparator = ",";
-const foodCombinations = generateStringCombinations(
+const foodCombinations = generateStringCombinationsSorted(
   ["Salad", "Fries", "Soda"],
   listSeparator,
 );
@@ -58,9 +62,11 @@ const schema = z.object({
   "Col with\nLineBreak": z.string().min(2),
   FoodOrder: z.string().refine(
     (val) =>
-      foodCombinations.includes(
+      foodCombinations.has(
         // user may add spaces before/after commas (or not)
-        val.split(listSeparator).map((s) => s.trim()).join(listSeparator),
+        val.split(listSeparator).map((s) => s.trim()).sort().join(
+          listSeparator,
+        ),
       ),
     { error: "Invalid food order combination" },
   ).optional(),
