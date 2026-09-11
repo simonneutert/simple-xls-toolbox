@@ -22,6 +22,14 @@ Please use the following format for each entry:
 
 ## [Unreleased]
 
+## v0.0.15 - 2026-09-11
+
+- Updated zod updated to latest version. @simonneutert
+
+## v0.0.14 - 2026-09-01
+
+- Updated: #20 zod updated to latest version. @simonneutert
+
 ## [v0.0.13] - 2026-08-28
 
 - Updated: [#19](https://github.com/simonneutert/simple-xls-toolbox/pull/19)
